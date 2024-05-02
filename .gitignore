@@ -50,7 +50,6 @@ addons/sourcemod/scripting/include/l4d2_penalty_bonus.inc
 addons/sourcemod/scripting/include/l4d2_playstats.inc
 addons/sourcemod/scripting/include/l4d2_saferoom_detect.inc
 addons/sourcemod/scripting/include/l4d2_scoremod.inc
-addons/sourcemod/scripting/include/l4d2_skill_detect.inc
 addons/sourcemod/scripting/include/l4d2lib.inc
 addons/sourcemod/scripting/include/l4d2util.inc
 addons/sourcemod/scripting/include/l4d2util_constants.inc

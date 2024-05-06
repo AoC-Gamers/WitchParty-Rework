@@ -453,7 +453,7 @@ stock void HandleVomitLanded(int iAttacker, int iBoomCount)
 	if (!g_cvarReport.BoolValue || !g_cvarRepVomitLanded.BoolValue)
 		return;
 
-	if (g_cvarRepVomitLanded.IntValue < iBoomCount)
+	if (g_cvarRepVomitLanded.IntValue <= iBoomCount)
 		return;
 
 	CPrintToChatAll("%t %t", "Tag++++", "VomitLanded", iAttacker, iBoomCount);

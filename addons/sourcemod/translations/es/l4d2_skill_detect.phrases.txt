@@ -218,7 +218,7 @@
 	// booms
 	"VomitLanded"
 	{
-		"#format"   "{1:N},{2:N}" // 1:attacker 2:victim
+		"#format"   "{1:N},{2:d}" // 1:attacker 2:victim
 		"es"		"{olive}{1}{default} {blue}vomito{default} a {olive}{2}{default} supervivientes"
 	}
     // bhaps

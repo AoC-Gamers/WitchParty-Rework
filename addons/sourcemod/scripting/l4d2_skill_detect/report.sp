@@ -414,7 +414,7 @@ stock void HandleClear(int iAttacker, int iVictim, int iPinVictim, L4D2ZombieCla
 	if (fClearTimeB < 0 && fClearTimeB != -1.0)
 		fClearTimeB = 0.0;
 
-	PrintDebug("Clear: %i freed %i from %i: time: %.2f / %.2f -- class: %s (with shove? %i)", iAttacker, iPinVictim, iVictim, fClearTimeA, fClearTimeB, L4D2ZombieClassname[ZombieClass], bWithShove);
+	PrintDebug("Clear: %i freed %i from %i: time: %.2f / %.2f -- class: %s (with shove? %i)", iAttacker, iPinVictim, iVictim, fClearTimeA, fClearTimeB, L4D2ZombieClassname[ZombieClass - view_as<L4D2ZombieClassType>(1)], bWithShove);
 
 	// Determine the relevant clear time based on zombie class
 	float fClearTime = (ZombieClass == L4D2ZombieClass_Charger || ZombieClass == L4D2ZombieClass_Smoker) ? fClearTimeB : fClearTimeA;
@@ -429,16 +429,16 @@ stock void HandleClear(int iAttacker, int iVictim, int iPinVictim, L4D2ZombieCla
 	if (IsValidClientInGame(iVictim) && !IsFakeClient(iVictim))
 	{
 		if (IsValidClientInGame(iPinVictim))
-			CPrintToChatAll("%t %t", "Tag+", "SIClear", iAttacker, iPinVictim, iVictim, L4D2ZombieClassname[ZombieClass], fClearTime);
+			CPrintToChatAll("%t %t", "Tag+", "SIClear", iAttacker, iPinVictim, iVictim, L4D2ZombieClassname[ZombieClass - view_as<L4D2ZombieClassType>(1)], fClearTime);
 		else
-			CPrintToChatAll("%t %t", "Tag+", "SIClearTeammate", iAttacker, iVictim, L4D2ZombieClassname[ZombieClass], fClearTime);
+			CPrintToChatAll("%t %t", "Tag+", "SIClearTeammate", iAttacker, iVictim, L4D2ZombieClassname[ZombieClass - view_as<L4D2ZombieClassType>(1)], fClearTime);
 	}
 	else
 	{
 		if (IsValidClientInGame(iPinVictim))
-			CPrintToChatAll("%t %t", "Tag+", "SIClearBot", iAttacker, iPinVictim, L4D2ZombieClassname[ZombieClass], fClearTime);
+			CPrintToChatAll("%t %t", "Tag+", "SIClearBot", iAttacker, iPinVictim, L4D2ZombieClassname[ZombieClass - view_as<L4D2ZombieClassType>(1)], fClearTime);
 		else
-			CPrintToChatAll("%t %t", "Tag+", "SIClearTeammateBot", iAttacker, L4D2ZombieClassname[ZombieClass], fClearTime);
+			CPrintToChatAll("%t %t", "Tag+", "SIClearTeammateBot", iAttacker, L4D2ZombieClassname[ZombieClass - view_as<L4D2ZombieClassType>(1)], fClearTime);
 	}
 }
 
@@ -453,7 +453,7 @@ stock void HandleVomitLanded(int iAttacker, int iBoomCount)
 	if (!g_cvarReport.BoolValue || !g_cvarRepVomitLanded.BoolValue)
 		return;
 
-	if (g_cvarRepVomitLanded.IntValue <= iBoomCount)
+	if (g_cvarRepVomitLanded.IntValue >= iBoomCount)
 		return;
 
 	CPrintToChatAll("%t %t", "Tag++++", "VomitLanded", iAttacker, iBoomCount);

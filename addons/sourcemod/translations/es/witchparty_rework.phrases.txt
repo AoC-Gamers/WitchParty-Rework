@@ -1,5 +1,9 @@
 "Phrases"
 {
+    "Tag"
+    {
+        "es"    "[{olive}WitchParty{default}]"
+    }
     "HealthLimitReached"
     {
         "es"    "Has alcanzado el límite de salud."

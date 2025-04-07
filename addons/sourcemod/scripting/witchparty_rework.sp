@@ -16,12 +16,14 @@
 			G L O B A L   V A R S
 *****************************************************************/
 
-#define PLUGIN_VERSION "2.4"
-#define Position_rhand 1
-#define Position_lhand 2
+#define DEBUG 			0
+#define PATCH_DEBUG		"logs/wpRework.log"
+
+#define PLUGIN_VERSION	"2.4"
+#define Position_rhand	1
+#define Position_lhand	2
 
 ConVar
-	g_cvarDebug,
 	g_cvarBonus,
 	g_cvarPrintBonus,
 
@@ -54,6 +56,10 @@ bool
 	g_bMeleeViewOn[MAXPLAYERS + 1],
 	g_bSpawnWitchBride = false;
 
+#if DEBUG
+char g_sLogPath[PLATFORM_MAX_PATH];
+#endif
+
 /*****************************************************************
 			P L U G I N   I N F O
 *****************************************************************/
@@ -63,7 +69,7 @@ public Plugin myinfo =
 	author		= "Lechuga",
 	description = "Essential features for witchparty",
 	version		= PLUGIN_VERSION,
-	url			= "https://github.com/lechuga16/WitchParty-Rework"
+	url			= "https://github.com/AoC-Gamers/WitchParty-Rework"
 }
 
 /*****************************************************************
@@ -72,9 +78,13 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
+	
+#if DEBUG
+	BuildPath(Path_SM, g_sLogPath, sizeof(g_sLogPath), PATCH_DEBUG);
+#endif
+
 	LoadTranslation("witchparty_rework.phrases");
 
-	g_cvarDebug			   = CreateConVar("sm_wp_debug", "0", "Debug messages", FCVAR_NONE, true, 0.0, true, 1.0);
 	g_cvarBonus			   = CreateConVar("sm_wp_witch_bonus", "10", "Wich Death Bonus. 0: disabled", FCVAR_NONE, true, 0.0);
 	g_cvarPrintBonus	   = CreateConVar("sm_wp_bonus_print", "1", "Print the bonus when successfully killing the wich", FCVAR_NONE, true, 0.0, true, 1.0);
 
@@ -164,7 +174,7 @@ public void OnWitchCrown(int survivor, int damage)
 	IncreaseHealth(survivor);
 }
 
-public void OnWitchCrownChip(int survivor, int damage, int chipdamage)
+public void OnWitchCrownHurt(int survivor, int damage, int chipdamage)
 {
 	if (g_cvarBonus.IntValue > 0)
 		PBONUS_AddRoundBonus(g_cvarBonus.IntValue, !g_cvarPrintBonus.BoolValue);
@@ -193,7 +203,7 @@ Action Timer_Spawned(Handle timer)
 {
 	if (L4D2_IsTankInPlay() && !g_cvarTankSpawnWitch.BoolValue)
 	{
-		logdebug("Tank is in play, skipping witch spawn");
+		LogDebug("Tank is in play, skipping witch spawn");
 		return Plugin_Continue;
 	}
 
@@ -201,12 +211,12 @@ Action Timer_Spawned(Handle timer)
 
 	if (g_cvarSpawnLimit.IntValue > 0 && iCountAliveWitches >= g_cvarSpawnLimit.IntValue)
 	{
-		logdebug("Spawn limit reached %d/%d;", iCountAliveWitches, g_cvarSpawnLimit.IntValue);
+		LogDebug("Spawn limit reached %d/%d;", iCountAliveWitches, g_cvarSpawnLimit.IntValue);
 		return Plugin_Continue;
 	}
 
 	SpawnWitch();
-	logdebug("Attempting to spawn %d/%d witches", iCountAliveWitches + 1, g_cvarSpawnLimit.IntValue);
+	LogDebug("Attempting to spawn %d/%d witches", iCountAliveWitches + 1, g_cvarSpawnLimit.IntValue);
 
 	return Plugin_Continue;
 }
@@ -246,7 +256,7 @@ public Action Event_Incapacitated(Event event, const char[] name, bool dontBroad
 	{
 		SpawnWitch();
 		iWitchSpawned++;
-		logdebug("Attempting to spawn %d witches for incap", g_cvarSpawnIncap.IntValue);
+		LogDebug("Attempting to spawn %d witches for incap", g_cvarSpawnIncap.IntValue);
 	}
 	while (iWitchSpawned < g_cvarSpawnIncap.IntValue);
 
@@ -342,7 +352,7 @@ bool deletetimer(Handle &hTimer)
 	{
 		delete hTimer;
 		hTimer = null;
-		logdebug("Deleting timer %d", hTimer);
+		LogDebug("Deleting timer %d", hTimer);
 		return true;
 	}
 	return false;
@@ -366,32 +376,6 @@ stock void LoadTranslation(const char[] translation)
 		SetFailState("Missing translation file %s.txt", translation);
 
 	LoadTranslations(translation);
-}
-
-/**
- * Logs a debug message to the server console and log file.
- *
- * @param sMessage The message to be logged.
- * @param ... Additional arguments to be formatted into the message.
- */
-public void logdebug(const char[] sMessage, any...)
-{
-	if (!g_cvarDebug.BoolValue)
-		return;
-
-	static int	iCheck = -1;
-	static char sFormat[512];
-	static char sFilename[64];
-
-	VFormat(sFormat, sizeof(sFormat), sMessage, 2);
-
-	GetPluginFilename(null, sFilename, sizeof(sFilename));
-	if ((iCheck = FindCharInString(sFilename, '/', true)) != -1 || (iCheck = FindCharInString(sFilename, '\\', true)) != -1)
-		Format(sFilename, sizeof(sFilename), "%s", sFilename[iCheck + 1]);
-
-	ReplaceString(sFilename, sizeof(sFilename), ".smx", "", false);
-	LogMessage("[%s] %s", sFilename, sFormat);
-	PrintToServer("[%s] %s", sFilename, sFormat);
 }
 
 /**
@@ -442,7 +426,7 @@ void SpawnWitch()
 			iWichEntity = CreateEntityByName("witch");
 			if (iWichEntity <= MaxClients)
 			{
-				logdebug("Failed to create a witch. Method: Sktools | Pos[%.1f][%.1f][%.1f] | Ang[%.1f][%.1f][%.1f]", fSpawnPos[0], fSpawnPos[1], fSpawnPos[2], fSpawnAng[0], fSpawnAng[1], fSpawnAng[2]);
+				LogDebug("Failed to create a witch. Method: Sktools | Pos[%.1f][%.1f][%.1f] | Ang[%.1f][%.1f][%.1f]", fSpawnPos[0], fSpawnPos[1], fSpawnPos[2], fSpawnAng[0], fSpawnAng[1], fSpawnAng[2]);
 				return;
 			}
 			SetAbsOrigin(iWichEntity, fSpawnPos);
@@ -459,7 +443,7 @@ void SpawnWitch()
 			g_bSpawnWitchBride = !g_bSpawnWitchBride;
 			if (iWichEntity <= MaxClients)
 			{
-				logdebug("Failed to create a witch. Method: lef4dhooks | Pos[%.1f][%.1f][%.1f] | Ang[%.1f][%.1f][%.1f]", fSpawnPos[0], fSpawnPos[1], fSpawnPos[2], fSpawnAng[0], fSpawnAng[1], fSpawnAng[2]);
+				LogDebug("Failed to create a witch. Method: lef4dhooks | Pos[%.1f][%.1f][%.1f] | Ang[%.1f][%.1f][%.1f]", fSpawnPos[0], fSpawnPos[1], fSpawnPos[2], fSpawnAng[0], fSpawnAng[1], fSpawnAng[2]);
 				return;
 			}
 		}
@@ -531,7 +515,7 @@ int GetCountAliveWitches()
 	while ((iNdex = FindEntityByClassname2(iNdex, "witch")) != -1)
 	{
 		countAlive++;
-		logdebug("Witch ID = %i (Alive witches = %i)", iNdex, countAlive);
+		LogDebug("Witch ID = %i (Alive witches = %i)", iNdex, countAlive);
 
 		if (g_cvarSpawnDistance.FloatValue > 0.0)
 		{
@@ -548,7 +532,7 @@ int GetCountAliveWitches()
 					clients++;
 					GetClientAbsOrigin(i, PlayerPos);
 					float distance = GetVectorDistance(WitchPos, PlayerPos);
-					logdebug("Distance to witch = %f; Max distance = %f", distance, g_cvarSpawnDistance.FloatValue);
+					LogDebug("Distance to witch = %f; Max distance = %f", distance, g_cvarSpawnDistance.FloatValue);
 
 					if (distance > g_cvarSpawnDistance.FloatValue)
 					{
@@ -564,7 +548,7 @@ int GetCountAliveWitches()
 			}
 		}
 	}
-	logdebug("Alive witches: %d | Spawn Distance Max: %d", countAlive, g_cvarSpawnDistance.IntValue);
+	LogDebug("Alive witches: %d | Spawn Distance Max: %d", countAlive, g_cvarSpawnDistance.IntValue);
 	return countAlive;
 }
 
@@ -669,7 +653,7 @@ public Action Timer_CreateMelee(Handle timer, any iClient)
 
 void CreateMelee(int client)
 {
-	logdebug("Creating melee for Tank %N", client);
+	LogDebug("Creating melee for Tank %N", client);
 	DeleteMelee(client);
 
 	int iPosition = 1;
@@ -794,6 +778,26 @@ stock bool IsValidClientIndex(int iClient)
 {
 	return (iClient > 0 && iClient <= MaxClients);
 }
+
+#if DEBUG
+/**
+ * Logs a debug message to a specified log file.
+ *
+ * @param sMessage   The format string for the debug message.
+ * @param ...        Additional arguments to format into the message.
+ */
+void LogDebug(const char[] sMessage, any...)
+{
+    static char sFormat[1024];
+    VFormat(sFormat, sizeof(sFormat), sMessage, 2);
+    LogToFileEx(g_sLogPath, "[Debug] %s", sFormat);
+}
+#else
+/**
+ * Logs function dummy.
+ */
+public void LogDebug(const char[] sMessage, any...) {}
+#endif
 
 // =======================================================================================
 // Bibliography

@@ -6,8 +6,8 @@
 | `cfg/stripper/witchparty/` | Importado en `0d8a49a`. Coincidencia byte a byte con 71 archivos de la misma ruta en ZoneMod de la base revisada. Se conservan los avisos de ProMod, Wicket y otros autores incluidos en las reglas. Falta comprobar el origen preciso y el alcance de licencia del árbol completo. |
 | `witchparty_rework.sp` y traducciones | Lechuga. El punto de partida figura en `0d8a49a` y la fuente actual incorpora cambios de `d0c37f2`. El código y las traducciones de autoría propia del plugin se ofrecen bajo GPL-3.0-only. El texto completo está en [LICENSE](LICENSE). La fuente cita Witch Glow, MultiWitches, Healer Witch y Multiwitch de CanadaRox. Las fuentes de CanadaRox consultadas en `5a70db01` carecen de licencia explícita. La comparación de texto encontró coincidencias en directivas comunes. Queda por determinar qué porciones, si las hay, se adaptaron de esas referencias antes de publicar. |
 
-El ZIP de validación local incluye el texto GPLv3 en `LICENSE` y CC BY-SA 3.0
-en `LICENSES/`. La base provee Confogl, Stripper, ReadyUp, Penalty Bonus y
+El ZIP de validación local incluye el texto GPLv3 en `LICENSE` y el de
+[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/legalcode). La base provee Confogl, Stripper, ReadyUp, Penalty Bonus y
 Skill Detect. Left4DHooks provee los natives de juego. Player Skills es un
 proveedor alternativo para el evento de crown. Los includes de esos proveedores,
 Colors y el archivo histórico `wp 2.2 Original.zip` quedan fuera del instalador.

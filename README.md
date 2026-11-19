@@ -39,10 +39,9 @@ Witchparty Rework es una configuración para Left 4 Dead 2, diseñada para aprov
 
 ## Instalación
 1. Witchparty Rework requiere el proyecto base [L4D2-Competitive-Rework](https://github.com/SirPlease/L4D2-Competitive-Rework). Descárgalo e instálalo primero.
-2. Descarga los archivos desde el [repositorio de GitHub](https://github.com/AoC-Gamers/WitchParty-Rework).
-3. Extrae los archivos en la carpeta principal de tu servidor.
-4. Configura los archivos según tus necesidades (ver [Configuración](wiki/Configuración.md)).
-5. Reinicia el servidor para aplicar los cambios.
+2. Con GNU Make y Python 3.10 o posterior, genera el ZIP local con `make deps-smx`, `make build-smx` y `make release`.
+3. Copia las rutas `cfg/` y `addons/sourcemod/` declaradas dentro del ZIP a `left4dead2/` en el servidor.
+4. Verifica los proveedores indicados en [NOTICES.md](NOTICES.md) y registra el modo como se muestra abajo.
 
 ## Configuración
 
@@ -77,6 +76,12 @@ Luego, reinicia el servidor para aplicar los cambios.
 
 ## Contribuciones
 Gracias por tu interés en contribuir a *Witchparty Rework*, Puedes reportar problemas o sugerir mejoras a través de la [página de issues](https://github.com/AoC-Gamers/WitchParty-Rework/issues) o enviando un *pull request* en el [repositorio de GitHub](https://github.com/AoC-Gamers/WitchParty-Rework/pulls).
+
+## Licencias y autoría
+
+Las configuraciones de Confogl declaran CC BY-SA 3.0. Consulta
+[NOTICES.md](NOTICES.md) para la procedencia, licencias y componentes
+pendientes de confirmar.
 
 # Copyright
 *Witchparty Rework* es es una adaptación de "Witchparty".

@@ -45,6 +45,7 @@ En la copia revisada de L4D2-Competitive-Rework (`0390482d`) se encontraron
 los 111 plugins externos referenciados por las configuraciones de carga.
 `cvar_tracking.cfg` está en esa base. `confogl_rates.cfg` y
 `confogl_personalize.cfg` se deben verificar en el perfil del servidor.
+La base aporta `fix_pill_pass.smx`, su gamedata y la extensión SourceScramble.
 
 La base en 0390482d conserva los mismos includes de ReadyUp, Penalty Bonus y Skill Detect. El include Player Skills coincide con el de AoC-Gamers/L4D2-Player-Skills en dfbd6ac5. El modo utiliza Skill Detect cuando Player Skills está ausente. Verifica Left4DHooks en el servidor.
 

@@ -9,12 +9,12 @@
 
 Los perfiles se compararon por tamaño. Los seis ajustes de `mapcvars.txt` coinciden en cada formato reducido. También coinciden los límites generales de comunes, megahordas, píldoras y reaparición de los cuatro pares.
 
-| Formato | WitchParty | ZoneMod | Bonus por crown o chip-crown | Intervalo de aparición | Intentos por incapacitación |
-| --- | --- | --- | --- | --- | --- |
-| 4v4 | [`witchparty`](../../cfg/cfgogl/witchparty/witchparty.cfg) | `zonemod` | 5 | 12 s | 2 |
-| 3v3 | [`wp3v3`](../../cfg/cfgogl/wp3v3/wp3v3.cfg) | `zm3v3` | 5 | 14 s | 2 |
-| 2v2 | [`wp2v2`](../../cfg/cfgogl/wp2v2/wp2v2.cfg) | `zm2v2` | 10 | 16 s | 1 |
-| 1v1 | [`wp1v1`](../../cfg/cfgogl/wp1v1/wp1v1.cfg) | `zm1v1` | 10 | 18 s | 0 |
+| Formato | WitchParty | ZoneMod | Límite de Hunters | Bonus de equipo por crown o chip-crown | Intervalo entre intentos de aparición | Intentos por incapacitación | Tank |
+| --- | --- | --- | ---: | ---: | ---: | ---: | --- |
+| 4v4 | [`witchparty`](../../cfg/cfgogl/witchparty/witchparty.cfg) | `zonemod` | 4 | 5 | 12 s | 2 | Según el mapa |
+| 3v3 | [`wp3v3`](../../cfg/cfgogl/wp3v3/wp3v3.cfg) | `zm3v3` | 3 | 5 | 14 s | 2 | Según el mapa |
+| 2v2 | [`wp2v2`](../../cfg/cfgogl/wp2v2/wp2v2.cfg) | `zm2v2` | 2 | 10 | 16 s | 1 | Según el mapa |
+| 1v1 | [`wp1v1`](../../cfg/cfgogl/wp1v1/wp1v1.cfg) | `zm1v1` | 1 | 10 | 18 s | 0 | Deshabilitado |
 
 ## Apagado sincronizado
 
@@ -22,13 +22,53 @@ Los cuatro perfiles pasan por el [CFG compartido de apagado](../../cfg/cfgogl/wi
 
 ## Reglas propias de WitchParty
 
-| Área | Comportamiento del modo |
-| --- | --- |
-| Puntuación y salud | Omite la puntuación híbrida de ZoneMod. El plugin usa Player Skills si está disponible y Skill Detect como alternativa. Penalty Bonus concede los puntos de equipo. Si el autor del crown está en juego y sin incapacitar, recibe 5 puntos de salud permanente, 10 de salud temporal y, por defecto, 3 s de efecto de adrenalina. |
-| Aparición de Witches | Los perfiles desactivan la Witch de Witch and Tankifier. El Stripper global filtra las apariciones de Witch por script. El modo crea Witches normales con `sm_wp_spawn_method 1`. Con ReadyUp, el inicio en vivo activa el temporizador. |
-| Limpieza y límites | La comprobación periódica elimina Witches a más de 1500 unidades de todos los supervivientes vivos y aplica el límite de 15 por defecto. Las apariciones por incapacitación llaman directamente a la función de generación. |
-| Tank | En 4v4, 3v3 y 2v2, la aparición del Tank retira las Witches y los intentos periódicos se omiten mientras el Tank esté en juego. El modelo de Witch en su mano es visual. En 1v1 se desactivan la limpieza por Tank y el modelo. |
-| Contorno y comandos | El plugin aplica un contorno blanco a la Witch cuando aparece y lo retira cuando se alerta o muere. Los administradores disponen de `sm_spawnwitch` y `sm_killwitch`. `sm_showmelee` alterna la visibilidad del modelo del Tank para el jugador que lo ejecuta. |
+- **Aparición.** Los cuatro perfiles desactivan la Witch de Witch and
+  Tankifier con `sm_witch_can_spawn 0`. Stripper filtra las apariciones por
+  script que coinciden con sus reglas. `sm_wp_spawn_method 1` crea Witches
+  normales. Cada intento requiere un superviviente vivo y una posición de
+  aparición válida. Con ReadyUp, el temporizador arranca en `OnRoundIsLive`.
+  En ausencia de ReadyUp, arranca en `round_start`. [Stripper global](../../cfg/stripper/witchparty/global_filters.cfg#L6) ·
+  [Temporizador y generación](../../addons/sourcemod/scripting/witchparty_rework.sp#L336)
+- **Limpieza y límite.** Al revisar el mapa, el temporizador elimina las
+  Witches a más de 1500 unidades de todos los supervivientes vivos. Después
+  compara el recuento restante con `sm_wp_spawn_limit`, cuyo valor
+  predeterminado es 15. [Limpieza en el plugin](../../addons/sourcemod/scripting/witchparty_rework.sp#L708) ·
+  [CFG compartido](../../cfg/cfgogl/witchparty/shared_settings.cfg#L268)
+- **Incapacitación.** `sm_wp_spawn_incap` fija el número de intentos cuando
+  se incapacita un superviviente. El plugin llama directamente a
+  `SpawnWitch` desde ese evento, sin las comprobaciones del temporizador
+  para Tank activo y límite de Witches ni una comprobación de ReadyUp.
+  El valor 0 de 1v1 desactiva esta vía. Ese perfil también fija a 0
+  `survivor_max_incapacitated_count` y `survivor_ledge_grab_health`.
+  [Evento de incapacitación](../../addons/sourcemod/scripting/witchparty_rework.sp#L402) ·
+  [CFG de 1v1](../../cfg/cfgogl/wp1v1/confogl.cfg#L36)
+- **Tank.** En 4v4, 3v3 y 2v2, `sm_wp_tank_kill_witch 1` elimina las
+  Witches presentes cuando aparece un Tank. Con `sm_wp_tank_spawn_witch 0`,
+  el temporizador omite intentos mientras haya un Tank en juego. El modelo
+  de Witch en la mano es visual. El propio Tank puede alternar su
+  visibilidad con `sm_showmelee`. El perfil 1v1 deshabilita la aparición
+  del Tank, la limpieza al aparecer y el modelo. [Evento del Tank](../../addons/sourcemod/scripting/witchparty_rework.sp#L480) ·
+  [Modelo y visibilidad](../../addons/sourcemod/scripting/witchparty_rework.sp#L852)
+- **Recompensas.** WitchParty omite la puntuación híbrida de ZoneMod. El
+  plugin usa Player Skills para detectar crowns y chip-crowns, con Skill
+  Detect como alternativa. Si el autor está en juego, Penalty Bonus concede
+  el bonus de equipo aunque el autor esté incapacitado. La recompensa
+  personal requiere que el autor esté sin incapacitar. El CFG da +5 de
+  salud permanente y +10 temporal y desactiva el límite de salud del
+  plugin con `sm_wp_health_limit 0`. El efecto de adrenalina dura 3 s por
+  defecto. [Detección](../../addons/sourcemod/scripting/witchparty_rework.sp#L269) ·
+  [Recompensa](../../addons/sourcemod/scripting/witchparty_rework.sp#L516)
+- **Glow.** El plugin aplica un contorno blanco al aparecer la Witch. El
+  rango predeterminado va de 10 a 2000 unidades. El contorno se retira al
+  alertarse contra un jugador o al morir. Los administradores también
+  disponen de `sm_spawnwitch` y `sm_killwitch`. [Ajustes y comandos](../../addons/sourcemod/scripting/witchparty_rework.sp#L124) ·
+  [Eventos](../../addons/sourcemod/scripting/witchparty_rework.sp#L383)
+- **Hunters.** Cada perfil fija `z_versus_hunter_limit` al tamaño del
+  equipo y pone los límites de Boomer, Smoker, Jockey, Charger y Spitter
+  en 0. En 1v1, `z_pounce_damage` vale 24 y `hunter_pz_claw_dmg` vale 0.
+  En los demás tamaños valen 2 y 6, respectivamente.
+  [CFG de 4v4](../../cfg/cfgogl/witchparty/confogl.cfg#L18) ·
+  [CFG de 1v1](../../cfg/cfgogl/wp1v1/confogl.cfg#L18)
 
 El [mapa de producto](../../scripts/package/package-map.json) incluye [`witchparty_rework.smx` y su fuente](../../addons/sourcemod/scripting/witchparty_rework.sp), traducciones en español e inglés y los filtros propios de Stripper. [Proveedores y compilación](../build/README.md).
 
@@ -41,4 +81,4 @@ El [mapa de producto](../../scripts/package/package-map.json) incluye [`witchpar
 | Armas y combate | WitchParty omite las cuotas de armas, cambia conversiones de MP5 y Desert Rifle y conserva otros atributos por arma. Usa `pill_passer`, omite los rangos de aparición de píldoras de ZoneMod y difiere en godframes, props e infectados poco comunes. Omite el ecualizador de Boomer y los comandos por mapa de bloqueo de spit y cornisas. [Ajustes compartidos](../../cfg/cfgogl/witchparty/shared_settings.cfg). |
 | Proveedores y orden de carga | WitchParty carga `l4d2_skill_detect` justo antes de su plugin. Es la única carga común que cambia de posición en 4v4, 3v3 y 2v2. ZoneMod 1v1 omite Skill Detect. Queda por probar el bonus con Player Skills presente y con Skill Detect como alternativa. [CFG de carga](../../cfg/cfgogl/witchparty/shared_plugins.cfg). |
 
-La aceptación en SRCDS queda pendiente. Debe cubrir la generación al iniciar la ronda y por incapacitación, las recompensas de crown y chip-crown, la aparición del Tank y la descarga del modo. También debe confirmar el comportamiento cuando una incapacitación coincide con un Tank activo o con el límite de Witches del temporizador.
+La aceptación en SRCDS queda pendiente. Debe cubrir la generación al iniciar la ronda y por incapacitación, las recompensas de crown y chip-crown, la aparición del Tank y la descarga del modo. También debe confirmar el comportamiento durante ReadyUp y cuando una incapacitación coincide con un Tank activo o con el límite de Witches del temporizador.

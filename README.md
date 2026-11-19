@@ -6,36 +6,40 @@ Witchparty Rework es una configuración para Left 4 Dead 2, diseñada para aprov
 
 ## Características
 
-### General
-- Las reglas generales estan basadas en ZoneMod.
-- El sistema de bonus se basa en realizar crown o chip-crown a tantas witch sean posibles.
-- Spawn de witch constantes.
-- Realizar Crown o Chip-Crown: +5 de vida permanente y +10 de vida temporal. Ademas de un bonus de puntos para el equipo.
-- El spawn del tank elimina todas las witchs del mapa y detiene su spawn.
-- Las witch que se encuentren a una distancia de 1500 de los supervivientes sean eliminadas.
-- Glow para la witch.
-- Tank con melee especial
-- La incapacitación de un supervivientes witch.
+WitchParty se juega sobre Versus y toma ZoneMod como base. Los Hunters son la
+única clase ordinaria de infectado especial habilitada. Su límite coincide
+con el tamaño de cada equipo.
 
-### Witchparty 4v4
-- Realizar Crown o Chip-Crown: +5 de bonus al equipo
-- Tiempo de spawn de witch 12 segundos
-- Incapacitación genera 2 witch
+| Formato | Límite de Hunters | Bonus de equipo por crown o chip-crown | Intervalo entre intentos de aparición | Intentos por incapacitación | Tank |
+| --- | ---: | ---: | ---: | ---: | --- |
+| 4v4 | 4 | +5 | 12 s | 2 | Según el mapa |
+| 3v3 | 3 | +5 | 14 s | 2 | Según el mapa |
+| 2v2 | 2 | +10 | 16 s | 1 | Según el mapa |
+| 1v1 | 1 | +10 | 18 s | 0 | Deshabilitado |
 
-### Witchparty 3v3
-- Realizar Crown o Chip-Crown: +5 de bonus al equipo
-- Tiempo de spawn de witch 14 segundos
-- Incapacitación genera 2 witch
+- **Aparición.** WitchParty genera Witches normales. Con ReadyUp, el
+  temporizador arranca cuando la ronda entra en vivo. Cada intento requiere
+  una posición válida cerca de un superviviente vivo. El temporizador
+  elimina Witches que estén a más de 1500 unidades de todos los
+  supervivientes vivos y aplica un límite predeterminado de 15 Witches.
+- **Incapacitación.** Cuando un superviviente queda incapacitado, el modo
+  hace los intentos indicados en la tabla. Esta ruta puede intentar generar
+  Witches durante ReadyUp, con un Tank activo o con el límite del
+  temporizador alcanzado. En 1v1 también se deshabilitan las
+  incapacidades y el agarre de cornisas.
+- **Tank.** Al aparecer, elimina las Witches presentes. Mientras esté en
+  juego, el temporizador omite los intentos de aparición. El modelo de
+  Witch en la mano del Tank es visual. El propio Tank puede alternar su
+  visibilidad con `sm_showmelee`.
+- **Recompensas.** Crown y chip-crown otorgan el mismo bonus de equipo
+  mediante Penalty Bonus. Si el autor sigue en juego y está sin incapacitar,
+  también recibe +5 de vida permanente, +10 de vida temporal y, por defecto,
+  3 s de efecto de adrenalina.
+- **Glow.** Las Witches aparecen con un contorno blanco que se retira cuando
+  se alertan contra un jugador o mueren.
 
-### Witchparty 2v2
-- Realizar Crown o Chip-Crown: +10 de bonus al equipo
-- Tiempo de spawn de witch 16 segundos
-- Incapacitación genera 1 witch
-
-### Witchparty 1v1
-- Realizar Crown o Chip-Crown: +10 de bonus al equipo
-- Tiempo de spawn de witch 18 segundos
-- Incapacitación no genera witch
+Consulta la [referencia técnica](docs/mode/zonemod-baseline.md) para los
+ajustes de los perfiles y los casos pendientes de prueba en SRCDS.
 
 ## Instalación
 1. Witchparty Rework requiere el proyecto base [L4D2-Competitive-Rework](https://github.com/SirPlease/L4D2-Competitive-Rework). Descárgalo e instálalo primero.

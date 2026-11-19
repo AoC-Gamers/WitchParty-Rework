@@ -47,12 +47,10 @@ los 111 plugins externos referenciados por las configuraciones de carga.
 `confogl_personalize.cfg` se deben verificar en el perfil del servidor.
 La base aporta `fix_pill_pass.smx`, su gamedata y la extensión SourceScramble.
 
-La base en 0390482d conserva los mismos includes de ReadyUp, Penalty Bonus y Skill Detect. El include Player Skills coincide con el de AoC-Gamers/L4D2-Player-Skills en dfbd6ac5. El modo utiliza Skill Detect cuando Player Skills está ausente. Verifica Left4DHooks en el servidor.
+La base en 0390482d conserva los mismos includes de ReadyUp, Penalty Bonus y Skill Detect. El include Player Skills coincide con el de AoC-Gamers/L4D2-Player-Skills en dfbd6ac5. El modo utiliza Skill Detect cuando Player Skills está ausente. Left4DHooks es una dependencia del modo.
 
-La aceptación en SRCDS requiere comprobar la activación, el inicio de ronda,
-el cambio de modo y la restauración de cvars. La validación offline cubre
-el contenido del paquete. Los pendientes para una publicación se registran
-en `NOTICES.md`.
+La validación offline cubre el contenido del paquete. Los pendientes para
+una publicación se registran en `NOTICES.md`.
 
 El validador comprueba el texto de la licencia GNU y el enlace CC BY-SA 3.0
 en `NOTICES.md` antes de empaquetar.

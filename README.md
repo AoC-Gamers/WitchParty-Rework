@@ -39,7 +39,7 @@ con el tamaño de cada equipo.
   se alertan contra un jugador o mueren.
 
 Consulta la [referencia técnica](docs/mode/zonemod-baseline.md) para los
-ajustes de los perfiles y los casos pendientes de prueba en SRCDS.
+ajustes de los perfiles.
 
 ## Instalación
 1. Witchparty Rework requiere el proyecto base [L4D2-Competitive-Rework](https://github.com/SirPlease/L4D2-Competitive-Rework). Descárgalo e instálalo primero.

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2] - 2026-11-20
+
+### Corregido
+
+- Retirados `l4d2_steady_boost` y `l4d2_uncommon_adjustment` y sus cvars tras su retirada de la base competitiva.
+- En Death Toll 2, la rejilla del túnel ya impide que píldoras y arrojables queden fuera de alcance.
+
 ## [1.0.1] - 2026-11-19
 
 ### Cambiado

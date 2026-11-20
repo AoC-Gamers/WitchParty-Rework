@@ -18,3 +18,5 @@ Colors y el archivo histórico `wp 2.2 Original.zip` quedan fuera del instalador
 - [Healer Witch de CanadaRox](https://github.com/MatthewClair/sourcemod-plugins/blob/5a70db01be64ef4a34504625b15fa9201006f199/healer_witch/healer_witch.sp)
 - [Multiwitch de CanadaRox](https://github.com/MatthewClair/sourcemod-plugins/blob/5a70db01be64ef4a34504625b15fa9201006f199/mutliwitch/l4d_multiwitch.sp)
 - [Player Skills, revisión cuyo include coincide con el del modo](https://github.com/AoC-Gamers/L4D2-Player-Skills/tree/dfbd6ac5752b31c61c53d05728d698dc0b8d614f)
+
+- [Bloqueador de física de Death Toll 2 importado de ZoneMod](https://github.com/SirPlease/L4D2-Competitive-Rework/commit/59c1b56f).

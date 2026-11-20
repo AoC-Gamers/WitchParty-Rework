@@ -4,8 +4,8 @@
 | --- | --- |
 | Base | [SirPlease/L4D2-Competitive-Rework](https://github.com/SirPlease/L4D2-Competitive-Rework) |
 | Versión comparada | ZoneMod **v2.9.2b** |
-| Revisión comparada | [`0390482d48ee87ba16ecb39490dc6f235dbdc1e0`](https://github.com/SirPlease/L4D2-Competitive-Rework/tree/0390482d48ee87ba16ecb39490dc6f235dbdc1e0/cfg/cfgogl) |
-| Modo de destino | WitchParty Rework **v1.0.1**, sobre Versus |
+| Revisión comparada | [`85139a242fafc913add3862c7066880b0ed9b991`](https://github.com/SirPlease/L4D2-Competitive-Rework/tree/85139a242fafc913add3862c7066880b0ed9b991/cfg/cfgogl) |
+| Modo de destino | WitchParty Rework **v1.0.2**, sobre Versus |
 
 Los perfiles se compararon por tamaño. Los seis ajustes de `mapcvars.txt` coinciden en cada formato reducido. También coinciden los límites generales de comunes, megahordas, píldoras y reaparición de los cuatro pares.
 
@@ -15,6 +15,12 @@ Los perfiles se compararon por tamaño. Los seis ajustes de `mapcvars.txt` coinc
 | 3v3 | [`wp3v3`](../../cfg/cfgogl/wp3v3/wp3v3.cfg) | `zm3v3` | 3 | 5 | 14 s | 2 | Según el mapa |
 | 2v2 | [`wp2v2`](../../cfg/cfgogl/wp2v2/wp2v2.cfg) | `zm2v2` | 2 | 10 | 16 s | 1 | Según el mapa |
 | 1v1 | [`wp1v1`](../../cfg/cfgogl/wp1v1/wp1v1.cfg) | `zm1v1` | 1 | 10 | 18 s | 0 | Deshabilitado |
+
+## Cambios de la base en `85139a24`
+
+Se retiraron `l4d2_steady_boost` y `l4d2_uncommon_adjustment` y sus ajustes de Confogl. [Retirada en la base](https://github.com/SirPlease/L4D2-Competitive-Rework/commit/7d080dac).
+
+El [filtro propio de Death Toll 2](../../cfg/stripper/witchparty/maps/c10m2_drainage.cfg) incorpora el bloqueador bajo la rejilla. [Cambio de ZoneMod](https://github.com/SirPlease/L4D2-Competitive-Rework/commit/59c1b56f).
 
 ## Apagado sincronizado
 

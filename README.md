@@ -1,4 +1,4 @@
-# Witchparty Rework v1.0.1
+# Witchparty Rework v1.0.2
 
 [EN] [translation](https://translate.google.com/translate?sl=es&tl=en&u=https://github.com/AoC-Gamers/WitchParty-Rework)
 
